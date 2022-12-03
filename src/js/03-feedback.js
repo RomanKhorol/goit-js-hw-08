@@ -6,23 +6,24 @@ const textArea = document.querySelector('.feedback-form textarea');
 
 form.addEventListener('input', throttle(onInputChange, 500));
 form.addEventListener('submit', onFormSubmit);
-onPageLoad();
 
 const STORAGE_KEY = 'feedback-form-state';
-const formData = null;
-
+const formData = {};
+onPageLoad();
 function onInputChange(event) {
   formData.mail = input.value;
   formData.message = textArea.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ formData }));
 }
 
-let inputData = localStorage.getItem(STORAGE_KEY);
-let storageData = JSON.parse(inputData);
 function onPageLoad(e) {
-  if (storageData) {
+  let inputData = localStorage.getItem(STORAGE_KEY);
+  if (inputData) {
+    let storageData = JSON.parse(inputData);
     input.value = storageData.formData.mail;
     textArea.value = storageData.formData.message;
+    formData.mail = storageData.formData.mail;
+    formData.message = storageData.formData.message;
   }
 }
 
